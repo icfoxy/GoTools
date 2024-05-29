@@ -7,9 +7,9 @@ import (
 )
 
 // 数据转json并响应
-func respondByJSON(w http.ResponseWriter, code int, input any) error {
-	//各类型数据转json
-	data, err := json.Marshal(input)
+func RespondByJSON(w http.ResponseWriter, code int, input any) error {
+	//各类型数据转json比特数组
+	data, err := ToJsonByte(input)
 	if err != nil {
 		return err
 	}
@@ -23,8 +23,8 @@ func respondByJSON(w http.ResponseWriter, code int, input any) error {
 }
 
 // json格式报错
-func respondByErr(w http.ResponseWriter, code int, errInfo string) {
-	respondByJSON(w, code, struct {
+func RespondByErr(w http.ResponseWriter, code int, errInfo string) {
+	RespondByJSON(w, code, struct {
 		Err string
 	}{
 		Err: errInfo,
@@ -32,7 +32,7 @@ func respondByErr(w http.ResponseWriter, code int, errInfo string) {
 }
 
 // 从Body中获取json
-func getJson(body io.Reader) (interface{}, error) {
+func GetJson(body io.Reader) (interface{}, error) {
 	var data interface{}
 	err := json.NewDecoder(body).Decode(&data)
 	if err != nil {
