@@ -51,7 +51,7 @@ func GetJsonByteFromBody(body io.Reader) ([]byte, error) {
 	return data, nil
 }
 
-// 从body中获取任意类型数据
+// 从body中获取Json，并转为任意类型数据
 func GetAnyFromBody[T any](body io.Reader, result *T) error {
 	byteData, err := GetJsonByteFromBody(body)
 	if err != nil {
