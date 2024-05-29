@@ -7,12 +7,12 @@ import (
 )
 
 // 任意类型转Json比特数组，传入任意类型，输出比特数组
-func ToJsonByte(input any) (result []byte, err error) {
+func AnyToJsonByte(input any) (result []byte, err error) {
 	return json.Marshal(input)
 }
 
 // Json比特数组转相应类型，传入比特数组，输出对应类型数据
-func JsonByteToStruct[T any](input []byte, result *T) error {
+func JsonByteToAny[T any](input []byte, result *T) error {
 	return json.Unmarshal(input, result)
 }
 
@@ -41,12 +41,22 @@ func RespondByErr(w http.ResponseWriter, code int, errInfo string) {
 	})
 }
 
-// 从Body中获取Json字比特数组
-func GetJson(body io.Reader) ([]byte, error) {
+// 从body中获取Json字比特数组
+func GetJsonByteFromBody(body io.Reader) ([]byte, error) {
 	var data []byte
 	err := json.NewDecoder(body).Decode(&data)
 	if err != nil {
 		return nil, err
 	}
 	return data, nil
+}
+
+// 从body中获取任意类型数据
+func GetAnyFromBody[T any](body io.Reader, result *T) error {
+	byteData, err := GetJsonByteFromBody(body)
+	if err != nil {
+		return err
+	}
+	err = JsonByteToAny(byteData, result)
+	return err
 }

@@ -13,11 +13,11 @@ func DBPut(DBName string, key, value any) error {
 		return err
 	}
 	defer db.Close()
-	kData, err := ToJsonByte(key)
+	kData, err := AnyToJsonByte(key)
 	if err != nil {
 		return err
 	}
-	vData, err := ToJsonByte(value)
+	vData, err := AnyToJsonByte(value)
 	if err != nil {
 		return err
 	}
@@ -32,7 +32,7 @@ func DBGet[T any](DBName string, key any, value *T) (err error) {
 		return err
 	}
 	defer db.Close()
-	kData, err := ToJsonByte(key)
+	kData, err := AnyToJsonByte(key)
 	if err != nil {
 		return err
 	}
@@ -40,7 +40,7 @@ func DBGet[T any](DBName string, key any, value *T) (err error) {
 	if err != nil {
 		return err
 	}
-	err = JsonByteToStruct(data, value)
+	err = JsonByteToAny(data, value)
 	return err
 }
 
@@ -51,7 +51,7 @@ func DBDelete(DBName string, key any) error {
 		return err
 	}
 	defer db.Close()
-	kData, err := ToJsonByte(key)
+	kData, err := AnyToJsonByte(key)
 	if err != nil {
 		return err
 	}
@@ -70,11 +70,11 @@ func DBPutList[T1 any, T2 any](DBName string, KList []T1, VList []T2) error {
 	}
 	defer db.Close()
 	for i, key := range KList {
-		kData, err := ToJsonByte(key)
+		kData, err := AnyToJsonByte(key)
 		if err != nil {
 			return err
 		}
-		vData, err := ToJsonByte(VList[i])
+		vData, err := AnyToJsonByte(VList[i])
 		if err != nil {
 			return err
 		}
@@ -97,7 +97,7 @@ func DBGetList[T1 any, T2 any](DBName string, KList []T1, VList []T2) error {
 	}
 	defer db.Close()
 	for i, key := range KList {
-		kData, err := ToJsonByte(key)
+		kData, err := AnyToJsonByte(key)
 		if err != nil {
 			return err
 		}
@@ -105,7 +105,7 @@ func DBGetList[T1 any, T2 any](DBName string, KList []T1, VList []T2) error {
 		if err != nil {
 			return err
 		}
-		err = JsonByteToStruct(data, &VList[i])
+		err = JsonByteToAny(data, &VList[i])
 		if err != nil {
 			return err
 		}
