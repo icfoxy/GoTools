@@ -12,7 +12,7 @@ func ToJsonByte(input any) (result []byte, err error) {
 	return json.Marshal(input)
 }
 
-// Json比特数组转相应类型，传入比特数组，输出对应类型
+// Json比特数组转相应类型，传入比特数组，输出对应类型数据
 func JsonByteToStruct[T any](input []byte, result *T) error {
 	return json.Unmarshal(input, result)
 }
