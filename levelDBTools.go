@@ -1,21 +1,10 @@
 package GoTools
 
 import (
-	"encoding/json"
 	"errors"
 
 	"github.com/syndtr/goleveldb/leveldb"
 )
-
-// 任意类型转Json比特数组，传入任意类型，输出比特数组
-func ToJsonByte(input any) (result []byte, err error) {
-	return json.Marshal(input)
-}
-
-// Json比特数组转相应类型，传入比特数组，输出对应类型数据
-func JsonByteToStruct[T any](input []byte, result *T) error {
-	return json.Unmarshal(input, result)
-}
 
 // 存入或更新数据，传入数据库名、键名、值
 func DBPut(DBName string, key, value any) error {
