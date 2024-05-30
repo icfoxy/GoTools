@@ -33,30 +33,17 @@ func RespondByJSON(w http.ResponseWriter, code int, input any) error {
 }
 
 // json格式报错
-func RespondByErr(w http.ResponseWriter, code int, errInfo string) {
-	RespondByJSON(w, code, struct {
+func RespondByErr(w http.ResponseWriter, code int, errInfo string) error {
+	err := RespondByJSON(w, code, struct {
 		Err string
 	}{
 		Err: errInfo,
 	})
-}
-
-// 从body中获取Json字比特数组
-func GetJsonByteFromBody(body io.Reader) ([]byte, error) {
-	var data []byte
-	err := json.NewDecoder(body).Decode(&data)
-	if err != nil {
-		return nil, err
-	}
-	return data, nil
+	return err
 }
 
 // 从body中获取Json，并转为任意类型数据
 func GetAnyFromBody[T any](body io.Reader, result *T) error {
-	byteData, err := GetJsonByteFromBody(body)
-	if err != nil {
-		return err
-	}
-	err = JsonByteToAny(byteData, result)
+	err := json.NewDecoder(body).Decode(result)
 	return err
 }
