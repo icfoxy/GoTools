@@ -19,7 +19,7 @@ func JsonByteToAny[T any](input []byte, result *T) error {
 // 数据转json并响应
 func RespondByJSON(w http.ResponseWriter, code int, input any) error {
 	//各类型数据转json比特数组
-	data, err := ToJsonByte(input)
+	data, err := AnyToJsonByte(input)
 	if err != nil {
 		return err
 	}
