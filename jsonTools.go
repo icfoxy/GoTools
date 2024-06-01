@@ -9,7 +9,7 @@ import (
 // 各类数据转json并响应
 func RespondByJSON(w http.ResponseWriter, code int, input any) error {
 	//各类型数据转json比特数组
-	data, err := AnyToJsonByte(input)
+	data, err := json.Marshal(input)
 	if err != nil {
 		return err
 	}
