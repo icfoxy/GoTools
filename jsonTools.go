@@ -6,6 +6,11 @@ import (
 	"net/http"
 )
 
+type ErrResp struct {
+	ErrLevel string
+	ErrInfo  string
+}
+
 // 各类数据转json并响应
 func RespondByJSON(w http.ResponseWriter, code int, input any) error {
 	//各类型数据转json比特数组
@@ -14,7 +19,7 @@ func RespondByJSON(w http.ResponseWriter, code int, input any) error {
 		return err
 	}
 	// 写入Header中Content - Type信息
-	w.Header().Add("Content-Type", "application/json")
+	w.Header().Set("Content-Type", "application/json")
 	//响应Header
 	w.WriteHeader(code)
 	//响应body
@@ -23,8 +28,8 @@ func RespondByJSON(w http.ResponseWriter, code int, input any) error {
 }
 
 // json格式报错
-func RespondByErr(w http.ResponseWriter, code int, info string) error {
-	err := RespondByJSON(w, code, info)
+func RespondByErr(w http.ResponseWriter, code int, errResp ErrResp) error {
+	err := RespondByJSON(w, code, errResp)
 	return err
 }
 
