@@ -29,9 +29,9 @@ func RespondByJSON(w http.ResponseWriter, code int, input any) error {
 
 // json格式报错
 func RespondByErr(w http.ResponseWriter, code int, info string, level string) error {
-	errResp:=ErrResp{
-		ErrLevel:level
-		ErrInfo:info
+	errResp := ErrResp{
+		ErrLevel: level,
+		ErrInfo:  info,
 	}
 	err := RespondByJSON(w, code, errResp)
 	return err
