@@ -23,12 +23,8 @@ func RespondByJSON(w http.ResponseWriter, code int, input any) error {
 }
 
 // json格式报错
-func RespondByErr(w http.ResponseWriter, code int, errInfo string) error {
-	err := RespondByJSON(w, code, struct {
-		Err string
-	}{
-		Err: errInfo,
-	})
+func RespondByErr(w http.ResponseWriter, code int, err error) error {
+	err := RespondByJSON(w, code, err)
 	return err
 }
 
